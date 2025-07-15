@@ -262,7 +262,7 @@
       <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
       <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
     </div>
-
+  </main>
   <!-- Modals -->
   <div id="modal-business-operations" class="modal">
     <div class="modal__dialog" draggable="true">
@@ -427,14 +427,13 @@
     const dialog = modal.querySelector('.modal__dialog');
     let isDragging = false;
     let offset = { x: 0, y: 0 };
-
     dialog.addEventListener('mousedown', (e) => {
       isDragging = true;
       offset.x = dialog.offsetLeft - e.clientX;
       offset.y = dialog.offsetTop - e.clientY;
       dialog.style.cursor = 'grabbing';
       dialog.style.position = 'absolute';
-    });
+    };
 
     document.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
@@ -454,7 +453,6 @@
     const businessOperationsModal = document.getElementById('modal-business-operations').querySelector('.modal__dialog');
     let isDraggingBO = false;
     let offsetBO = { x: 0, y: 0 };
-
     businessOperationsModal.addEventListener('mousedown', (e) => {
       isDraggingBO = true;
       offsetBO = {
@@ -462,7 +460,7 @@
         y: businessOperationsModal.offsetTop - e.clientY
       };
       businessOperationsModal.style.cursor = 'grabbing';
-    });
+    };
 
     document.addEventListener('mousemove', (e) => {
       if (!isDraggingBO) return;
@@ -506,7 +504,6 @@
     const itSupportModal = document.getElementById('modal-it-support').querySelector('.modal__dialog');
     let isDraggingIT = false;
     let offsetIT = { x: 0, y: 0 };
-
     itSupportModal.addEventListener('mousedown', (e) => {
       isDraggingIT = true;
       offsetIT = {
@@ -514,7 +511,7 @@
         y: itSupportModal.offsetTop - e.clientY
       };
       itSupportModal.style.cursor = 'grabbing';
-    });
+    };
 
     document.addEventListener('mousemove', (e) => {
       if (!isDraggingIT) return;
