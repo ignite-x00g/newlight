@@ -140,7 +140,8 @@
       position: relative;
     }
 
-    #modal-professionals .modal__dialog {
+    #modal-professionals .modal__dialog,
+    #modal-it-support .modal__dialog {
       position: absolute;
     }
 
@@ -295,13 +296,21 @@
   </div>
 
   <div id="modal-it-support" class="modal">
-    <div class="modal__dialog">
+    <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
       <div class="modal__header" data-en="IT Support" data-es="Soporte IT">IT Support</div>
-      <div class="modal__desc" data-en="Detailed description of IT Support." data-es="Descripción detallada de Soporte IT.">
-        Detailed description of IT Support.
+      <div class="modal__desc" data-en="Our IT Support services provide reliable and timely assistance to keep your systems running smoothly and securely." data-es="Nuestros servicios de soporte de TI brindan asistencia confiable y oportuna para mantener sus sistemas funcionando sin problemas y de forma segura.">
+        Our IT Support services provide reliable and timely assistance to keep your systems running smoothly and securely.
       </div>
       <div class="modal__body">
+        <p data-en="Services include helpdesk support, network monitoring, cybersecurity services, and cloud infrastructure management." data-es="Los servicios incluyen soporte de mesa de ayuda, monitoreo de red, servicios de ciberseguridad y administración de infraestructura en la nube."></p>
+        <ul>
+          <li data-en="24/7 helpdesk and remote troubleshooting" data-es="Servicio de asistencia 24 horas al día, 7 días a la semana y solución de problemas remota">24/7 helpdesk and remote troubleshooting</li>
+          <li data-en="Real-time network and system monitoring" data-es="Monitorización de redes y sistemas en tiempo real">Real-time network and system monitoring</li>
+          <li data-en="Cybersecurity audits, patching, and threat detection" data-es="Auditorías de ciberseguridad, aplicación de parches y detección de amenazas">Cybersecurity audits, patching, and threat detection</li>
+          <li data-en="Cloud infrastructure setup and maintenance" data-es="Configuración y mantenimiento de la infraestructura en la nube">Cloud infrastructure setup and maintenance</li>
+          <li data-en="Compliance with NIST, CISA, and OPS Core CyberSec policies" data-es="Cumplimiento de las políticas de ciberseguridad de NIST, CISA y OPS Core">Compliance with NIST, CISA, and OPS Core CyberSec policies</li>
+        </ul>
         <img class="placeholder" alt="Placeholder image">
         <video class="placeholder" controls></video>
       </div>
@@ -414,6 +423,32 @@
     document.addEventListener('mouseup', () => {
       isDragging = false;
       professionalsModal.style.cursor = 'grab';
+    });
+
+    // Draggable modal for IT Support
+    const itSupportModal = document.getElementById('modal-it-support').querySelector('.modal__dialog');
+    let isDraggingIT = false;
+    let offsetIT = { x: 0, y: 0 };
+
+    itSupportModal.addEventListener('mousedown', (e) => {
+      isDraggingIT = true;
+      offsetIT = {
+        x: itSupportModal.offsetLeft - e.clientX,
+        y: itSupportModal.offsetTop - e.clientY
+      };
+      itSupportModal.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDraggingIT) return;
+      e.preventDefault();
+      itSupportModal.style.left = (e.clientX + offsetIT.x) + 'px';
+      itSupportModal.style.top = (e.clientY + offsetIT.y) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDraggingIT = false;
+      itSupportModal.style.cursor = 'grab';
     });
   </script>
 
