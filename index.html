@@ -140,10 +140,11 @@
       position: relative;
     }
 
+    #modal-business-operations .modal__dialog,
     #modal-professionals .modal__dialog,
     #modal-it-support .modal__dialog,
     #modal-contact-center .modal__dialog {
-      position: absolute;
+    position: absolute;
     }
 
     .modal__header {
@@ -264,13 +265,21 @@
 
   <!-- Modals -->
   <div id="modal-business-operations" class="modal">
-    <div class="modal__dialog">
+    <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
       <div class="modal__header" data-en="Business Operations" data-es="Gestión">Business Operations</div>
-      <div class="modal__desc" data-en="Detailed description of Business Operations." data-es="Descripción detallada de Gestión.">
-        Detailed description of Business Operations.
+      <div class="modal__desc" data-en="Detailed content about our Business Operations services. We help streamline your processes, improve efficiency, and drive growth through strategic operational support." data-es="Contenido detallado sobre nuestros servicios de Operaciones Comerciales. Ayudamos a optimizar sus procesos, mejorar la eficiencia e impulsar el crecimiento a través del apoyo operativo estratégico.">
+        Detailed content about our Business Operations services. We help streamline your processes, improve efficiency, and drive growth through strategic operational support.
       </div>
       <div class="modal__body">
+        <p data-en="Key areas include process optimization, supply chain management, and quality assurance." data-es="Las áreas clave incluyen la optimización de procesos, la gestión de la cadena de suministro y el control de calidad."></p>
+        <ul>
+          <li data-en="Workflow digitization and automation" data-es="Digitalización y automatización de flujos de trabajo">Workflow digitization and automation</li>
+          <li data-en="Logistics and inventory efficiency strategies" data-es="Estrategias de eficiencia logística y de inventario">Logistics and inventory efficiency strategies</li>
+          <li data-en="Risk and compliance frameworks (NIST, ISO, CISA-aligned)" data-es="Marcos de riesgo y cumplimiento (alineados con NIST, ISO, CISA)">Risk and compliance frameworks (NIST, ISO, CISA-aligned)</li>
+          <li data-en="Performance metrics dashboards and insights" data-es="Paneles de métricas de rendimiento y perspectivas">Performance metrics dashboards and insights</li>
+          <li data-en="Remote team process coaching & Lean Ops" data-es="Coaching de procesos de equipos remotos y Lean Ops">Remote team process coaching & Lean Ops</li>
+        </ul>
         <img class="placeholder" alt="Placeholder image">
         <video class="placeholder" controls></video>
       </div>
@@ -389,6 +398,30 @@
       });
     });
 
+    // Draggable modal for Business Operations
+    const businessOperationsModal = document.getElementById('modal-business-operations').querySelector('.modal__dialog');
+    let isDraggingBO = false;
+    let offsetBO = { x: 0, y: 0 };
+
+    businessOperationsModal.addEventListener('mousedown', (e) => {
+      isDraggingBO = true;
+      offsetBO = {
+        x: businessOperationsModal.offsetLeft - e.clientX,
+        y: businessOperationsModal.offsetTop - e.clientY
+      };
+      businessOperationsModal.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDraggingBO) return;
+      e.preventDefault();
+      businessOperationsModal.style.left = (e.clientX + offsetBO.x) + 'px';
+      businessOperationsModal.style.top = (e.clientY + offsetBO.y) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDraggingBO = false;
+      businessOperationsModal.style.cursor = 'grab';
     // Draggable modal
     const professionalsModal = document.getElementById('modal-professionals').querySelector('.modal__dialog');
     let isDragging = false;
