@@ -123,6 +123,10 @@
       z-index: 1000;
     }
 
+    .modal.no-overlay {
+      background: transparent;
+    }
+
     .modal.active {
       display: flex;
     }
@@ -258,7 +262,6 @@
       <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
       <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
     </div>
-  </main>
 
   <!-- Modals -->
   <div id="modal-business-operations" class="modal">
@@ -300,6 +303,13 @@
           <li data-en="Customer experience analytics and quality monitoring" data-es="Análisis de la experiencia del cliente y seguimiento de la calidad">Customer experience analytics and quality monitoring</li>
         </ul>
         <img class="placeholder" alt="Placeholder image">
+        <ul>
+          <li data-en="24/7 inbound and outbound call handling" data-es="Manejo de llamadas entrantes y salientes 24/7">24/7 inbound and outbound call handling</li>
+          <li data-en="Multilingual live chat and email support" data-es="Soporte multilingüe por chat en vivo y correo electrónico">Multilingual live chat and email support</li>
+          <li data-en="Integration with CRM platforms (e.g., HubSpot, Salesforce)" data-es="Integración con plataformas CRM (por ejemplo, HubSpot, Salesforce)">Integration with CRM platforms (e.g., HubSpot, Salesforce)</li>
+          <li data-en="Social media engagement & sentiment tracking" data-es="Participación en redes sociales y seguimiento de sentimientos">Social media engagement & sentiment tracking</li>
+          <li data-en="Customer experience analytics and quality monitoring" data-es="Análisis de la experiencia del cliente y seguimiento de la calidad">Customer experience analytics and quality monitoring</li>
+        </ul>
         <video class="placeholder" controls></video>
       </div>
     </div>
@@ -322,7 +332,14 @@
           <li data-en="Compliance with NIST, CISA, and OPS Core CyberSec policies" data-es="Cumplimiento de las políticas de ciberseguridad de NIST, CISA y OPS Core">Compliance with NIST, CISA, and OPS Core CyberSec policies</li>
         </ul>
         <img class="placeholder" alt="Placeholder image">
-        <video class="placeholder" controls></video>
+        <ul>
+          <li data-en="24/7 helpdesk and remote troubleshooting" data-es="Servicio de asistencia 24 horas al día, 7 días a la semana y solución de problemas remota">24/7 helpdesk and remote troubleshooting</li>
+          <li data-en="Real-time network and system monitoring" data-es="Monitorización de redes y sistemas en tiempo real">Real-time network and system monitoring</li>
+          <li data-en="Cybersecurity audits, patching, and threat detection" data-es="Auditorías de ciberseguridad, aplicación de parches y detección de amenazas">Cybersecurity audits, patching, and threat detection</li>
+          <li data-en="Cloud infrastructure setup and maintenance" data-es="Configuración y mantenimiento de la infraestructura en la nube">Cloud infrastructure setup and maintenance</li>
+          <li data-en="Compliance with NIST, CISA, and OPS Core CyberSec policies" data-es="Cumplimiento de las políticas de ciberseguridad de NIST, CISA y OPS Core">Compliance with NIST, CISA, and OPS Core CyberSec policies</li>
+        </ul>
+       <video class="placeholder" controls></video>
       </div>
     </div>
   </div>
@@ -344,7 +361,14 @@
           <li data-en="OPS-vetted talent with NDAs, compliance training, and role-specific onboarding" data-es="Talento investigado por OPS con acuerdos de confidencialidad, formación en cumplimiento y incorporación específica para cada puesto">OPS-vetted talent with NDAs, compliance training, and role-specific onboarding</li>
         </ul>
         <img class="placeholder" alt="Placeholder image">
-        <video class="placeholder" controls></video>
+        <ul>
+          <li data-en="Remote IT professionals (SysAdmins, DevOps, Analysts)" data-es="Profesionales de TI remotos (SysAdmins, DevOps, Analistas)">Remote IT professionals (SysAdmins, DevOps, Analysts)</li>
+          <li data-en="Project managers and agile consultants" data-es="Jefes de proyecto y consultores ágiles">Project managers and agile consultants</li>
+          <li data-en="Finance and accounting professionals" data-es="Profesionales de finanzas y contabilidad">Finance and accounting professionals</li>
+          <li data-en="Human resources and recruitment experts" data-es="Expertos en recursos humanos y contratación">Human resources and recruitment experts</li>
+          <li data-en="OPS-vetted talent with NDAs, compliance training, and role-specific onboarding" data-es="Talento investigado por OPS con acuerdos de confidencialidad, formación en cumplimiento y incorporación específica para cada puesto">OPS-vetted talent with NDAs, compliance training, and role-specific onboarding</li>
+        </ul>
+       <video class="placeholder" controls></video>
       </div>
     </div>
   </div>
@@ -354,45 +378,76 @@
   </footer>
 
   <script>
-    // Language toggle
-    const langBtn = document.getElementById('lang-toggle');
-    langBtn.dataset.state = 'en';
-    langBtn.addEventListener('click', () => {
-      const current = langBtn.dataset.state;
-      const next = current === 'en' ? 'es' : 'en';
-      document.querySelectorAll('[data-en]').forEach(el => {
-        el.textContent = el.getAttribute(`data-${next}`);
-      });
-      langBtn.dataset.state = next;
-      langBtn.textContent = next.toUpperCase();
+  <script>
+  // Language toggle
+  const langBtn = document.getElementById('lang-toggle');
+  langBtn.dataset.state = 'en';
+  langBtn.addEventListener('click', () => {
+    const current = langBtn.dataset.state;
+    const next = current === 'en' ? 'es' : 'en';
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.textContent = el.getAttribute(`data-${next}`);
+    });
+    langBtn.dataset.state = next;
+    langBtn.textContent = next.toUpperCase();
+  });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark');
+    themeBtn.textContent = isDark ? 'Light' : 'Dark';
+  });
+
+  // Open modal
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.getElementById(card.dataset.target).classList.add('active');
+    });
+  });
+
+  // Close modal
+  document.querySelectorAll('.modal__close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.modal').classList.remove('active');
+    });
+  });
+
+  // Close modal when clicking backdrop
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  });
+
+  // ===== DRAGGABLE MODALS FIXED LOGIC =====
+  function makeDraggable(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    const dialog = modal.querySelector('.modal__dialog');
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+
+    dialog.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offset.x = dialog.offsetLeft - e.clientX;
+      offset.y = dialog.offsetTop - e.clientY;
+      dialog.style.cursor = 'grabbing';
+      dialog.style.position = 'absolute';
     });
 
-    // Theme toggle
-    const themeBtn = document.getElementById('theme-toggle');
-    themeBtn.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark');
-      themeBtn.textContent = isDark ? 'Light' : 'Dark';
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      dialog.style.left = `${e.clientX + offset.x}px`;
+      dialog.style.top = `${e.clientY + offset.y}px`;
     });
 
-    // Open modal
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', () => {
-        document.getElementById(card.dataset.target).classList.add('active');
-      });
-    });
-
-    // Close modal
-    document.querySelectorAll('.modal__close').forEach(btn => {
-      btn.addEventListener('click', () => {
-        btn.closest('.modal').classList.remove('active');
-      });
-    });
-
-    // Close modal when clicking backdrop
-    document.querySelectorAll('.modal').forEach(modal => {
-      modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-      });
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        dialog.style.cursor = 'grab';
+      }
     });
 
     // Draggable modal for Business Operations
@@ -499,6 +554,8 @@
       contactCenterModal.style.cursor = 'grab';
     });
   </script>
-
-</body>
-</html>
+  makeDraggable('modal-business-operations');
+  makeDraggable('modal-professionals');
+  makeDraggable('modal-it-support');
+  makeDraggable('modal-contact-center');
+</script>
