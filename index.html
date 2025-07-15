@@ -123,6 +123,10 @@
       z-index: 1000;
     }
 
+    .modal.no-overlay {
+      background: transparent;
+    }
+
     .modal.active {
       display: flex;
     }
@@ -134,6 +138,10 @@
       border-radius: 6px;
       overflow: hidden;
       position: relative;
+    }
+
+    #modal-professionals .modal__dialog {
+      position: absolute;
     }
 
     .modal__header {
@@ -251,6 +259,10 @@
       <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
       <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
     </div>
+    <div class="card" data-target="modal-no-overlay">
+      <h3 data-en="NO Overlay backdrop" data-es="Sin fondo de superposición">NO Overlay backdrop</h3>
+      <p data-en="dialog with header, description, image, video" data-es="diálogo con encabezado, descripción, imagen, video">dialog with header, description, image, video</p>
+    </div>
   </main>
 
   <!-- Modals -->
@@ -296,14 +308,36 @@
     </div>
   </div>
 
-  <div id="modal-professionals" class="modal">
+  <div id="modal-no-overlay" class="modal no-overlay">
     <div class="modal__dialog">
       <button class="modal__close">&times;</button>
-      <div class="modal__header" data-en="Professionals" data-es="Profesionales">Professionals</div>
-      <div class="modal__desc" data-en="Detailed description of Professionals." data-es="Descripción detallada de Profesionales.">
-        Detailed description of Professionals.
+      <div class="modal__header" data-en="NO Overlay backdrop" data-es="Sin fondo de superposición">NO Overlay backdrop</div>
+      <div class="modal__desc" data-en="dialog with header, description, image, video" data-es="diálogo con encabezado, descripción, imagen, video">
+        dialog with header, description, image, video
       </div>
       <div class="modal__body">
+        <img class="placeholder" alt="Placeholder image">
+        <video class="placeholder" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-professionals" class="modal">
+    <div class="modal__dialog" draggable="true">
+      <button class="modal__close">&times;</button>
+      <div class="modal__header" data-en="Professionals" data-es="Profesionales">Professionals</div>
+      <div class="modal__desc" data-en="Access our network of highly skilled and experienced professionals to meet your specific project or long-term staffing needs." data-es="Acceda a nuestra red de profesionales altamente cualificados y experimentados para satisfacer sus necesidades específicas de proyectos o de personal a largo plazo.">
+        Access our network of highly skilled and experienced professionals to meet your specific project or long-term staffing needs.
+      </div>
+      <div class="modal__body">
+        <p data-en="We provide experts in various fields including IT, project management, finance, and human resources, ensuring you get the right talent for your business." data-es="Proporcionamos expertos en diversos campos, como TI, gestión de proyectos, finanzas y recursos humanos, garantizando que obtenga el talento adecuado para su negocio."></p>
+        <ul>
+          <li data-en="Remote IT professionals (SysAdmins, DevOps, Analysts)" data-es="Profesionales de TI remotos (SysAdmins, DevOps, Analistas)">Remote IT professionals (SysAdmins, DevOps, Analysts)</li>
+          <li data-en="Project managers and agile consultants" data-es="Jefes de proyecto y consultores ágiles">Project managers and agile consultants</li>
+          <li data-en="Finance and accounting professionals" data-es="Profesionales de finanzas y contabilidad">Finance and accounting professionals</li>
+          <li data-en="Human resources and recruitment experts" data-es="Expertos en recursos humanos y contratación">Human resources and recruitment experts</li>
+          <li data-en="OPS-vetted talent with NDAs, compliance training, and role-specific onboarding" data-es="Talento investigado por OPS con acuerdos de confidencialidad, formación en cumplimiento y incorporación específica para cada puesto">OPS-vetted talent with NDAs, compliance training, and role-specific onboarding</li>
+        </ul>
         <img class="placeholder" alt="Placeholder image">
         <video class="placeholder" controls></video>
       </div>
@@ -354,6 +388,32 @@
       modal.addEventListener('click', e => {
         if (e.target === modal) modal.classList.remove('active');
       });
+    });
+
+    // Draggable modal
+    const professionalsModal = document.getElementById('modal-professionals').querySelector('.modal__dialog');
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+
+    professionalsModal.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offset = {
+        x: professionalsModal.offsetLeft - e.clientX,
+        y: professionalsModal.offsetTop - e.clientY
+      };
+      professionalsModal.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      professionalsModal.style.left = (e.clientX + offset.x) + 'px';
+      professionalsModal.style.top = (e.clientY + offset.y) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      professionalsModal.style.cursor = 'grab';
     });
   </script>
 
