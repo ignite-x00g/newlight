@@ -136,6 +136,10 @@
       position: relative;
     }
 
+    #modal-contact-center .modal__dialog {
+      position: absolute;
+    }
+
     .modal__header {
       padding: 1rem;
       background: var(--clr-primary);
@@ -269,13 +273,21 @@
   </div>
 
   <div id="modal-contact-center" class="modal">
-    <div class="modal__dialog">
+    <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
       <div class="modal__header" data-en="Contact Center" data-es="Centro De Servicios">Contact Center</div>
-      <div class="modal__desc" data-en="Detailed description of Contact Center." data-es="Descripción detallada del Centro de Servicios.">
-        Detailed description of Contact Center.
+      <div class="modal__desc" data-en="Explore our comprehensive Contact Center solutions designed to enhance customer satisfaction and engagement across all touchpoints." data-es="Explore nuestras soluciones integrales de Contact Center diseñadas para mejorar la satisfacción y el compromiso del cliente en todos los puntos de contacto.">
+        Explore our comprehensive Contact Center solutions designed to enhance customer satisfaction and engagement across all touchpoints.
       </div>
       <div class="modal__body">
+        <p data-en="We offer inbound and outbound call services, multi-channel support (email, chat, social media), and advanced analytics." data-es="Ofrecemos servicios de llamadas entrantes y salientes, soporte multicanal (correo electrónico, chat, redes sociales) y análisis avanzados."></p>
+        <ul>
+          <li data-en="24/7 inbound and outbound call handling" data-es="Manejo de llamadas entrantes y salientes 24/7">24/7 inbound and outbound call handling</li>
+          <li data-en="Multilingual live chat and email support" data-es="Soporte multilingüe por chat en vivo y correo electrónico">Multilingual live chat and email support</li>
+          <li data-en="Integration with CRM platforms (e.g., HubSpot, Salesforce)" data-es="Integración con plataformas CRM (por ejemplo, HubSpot, Salesforce)">Integration with CRM platforms (e.g., HubSpot, Salesforce)</li>
+          <li data-en="Social media engagement & sentiment tracking" data-es="Participación en redes sociales y seguimiento de sentimientos">Social media engagement & sentiment tracking</li>
+          <li data-en="Customer experience analytics and quality monitoring" data-es="Análisis de la experiencia del cliente y seguimiento de la calidad">Customer experience analytics and quality monitoring</li>
+        </ul>
         <img class="placeholder" alt="Placeholder image">
         <video class="placeholder" controls></video>
       </div>
@@ -354,6 +366,32 @@
       modal.addEventListener('click', e => {
         if (e.target === modal) modal.classList.remove('active');
       });
+    });
+
+    // Draggable modal for Contact Center
+    const contactCenterModal = document.getElementById('modal-contact-center').querySelector('.modal__dialog');
+    let isDraggingCC = false;
+    let offsetCC = { x: 0, y: 0 };
+
+    contactCenterModal.addEventListener('mousedown', (e) => {
+      isDraggingCC = true;
+      offsetCC = {
+        x: contactCenterModal.offsetLeft - e.clientX,
+        y: contactCenterModal.offsetTop - e.clientY
+      };
+      contactCenterModal.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDraggingCC) return;
+      e.preventDefault();
+      contactCenterModal.style.left = (e.clientX + offsetCC.x) + 'px';
+      contactCenterModal.style.top = (e.clientY + offsetCC.y) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDraggingCC = false;
+      contactCenterModal.style.cursor = 'grab';
     });
   </script>
 
