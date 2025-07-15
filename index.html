@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OPS Online Support</title>
+  <style>
+    :root {
+      --clr-primary: #FF6900;
+      --clr-secondary: #C4C3D0;
+      --clr-accent-mint: #A8E6CF;
+      --clr-bg-light: #F5F5F5;
+      --clr-bg-dark: #2E2E3A;
+      --clr-text-light: #333333;
+      --clr-text-dark: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--clr-bg-light);
+      color: var(--clr-text-light);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: var(--clr-bg-dark);
+      color: var(--clr-text-dark);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--clr-primary);
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    nav ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    nav li {
+      margin-right: 15px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toggles {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .toggles button {
+      background: var(--clr-secondary);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .card {
+      width: 280px;
+      background: #fff;
+      border: 2px solid var(--clr-accent-mint);
+      border-radius: 8px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal__dialog {
+      background: #fff;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal__header {
+      padding: 1rem;
+      background: var(--clr-primary);
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .modal__desc {
+      padding: 0 1rem 1rem;
+      font-size: 0.95rem;
+      color: var(--clr-text-light);
+    }
+
+    .modal__body {
+      padding: 0 1rem 1rem;
+    }
+
+    .modal__body img.placeholder {
+      width: 100%;
+      height: 180px;
+      background: #eee;
+      display: block;
+    }
+
+    .modal__body video.placeholder {
+      width: 100%;
+      height: 120px;
+      background: #ccc;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--clr-primary);
+      color: #fff;
+      margin-top: 2rem;
+    }
+
+    /* ---------- Responsive Enhancements ---------- */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+
+      .toggles {
+        flex-direction: column;
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+      }
+
+      .modal__dialog {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 0;
+      }
+
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">OPS</div>
+    <ul>
+      <li><a href="#" data-en="Business Operations" data-es="Gestión">Business Operations</a></li>
+      <li><a href="#" data-en="Contact Center" data-es="Centro De Servicios">Contact Center</a></li>
+      <li><a href="#" data-en="IT Support" data-es="Soporte IT">IT Support</a></li>
+      <li><a href="#" data-en="Professionals" data-es="Profesionales">Professionals</a></li>
+    </ul>
+    <div class="toggles">
+      <button id="lang-toggle" data-state="en">EN</button>
+      <button id="theme-toggle">Dark</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="card" data-target="modal-business-operations">
+      <h3 data-en="Business Operations" data-es="Gestión">Business Operations</h3>
+      <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
+    </div>
+    <div class="card" data-target="modal-contact-center">
+      <h3 data-en="Contact Center" data-es="Centro De Servicios">Contact Center</h3>
+      <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
+    </div>
+    <div class="card" data-target="modal-it-support">
+      <h3 data-en="IT Support" data-es="Soporte IT">IT Support</h3>
+      <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
+    </div>
+    <div class="card" data-target="modal-professionals">
+      <h3 data-en="Professionals" data-es="Profesionales">Professionals</h3>
+      <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  <div id="modal-business-operations" class="modal">
+    <div class="modal__dialog">
+      <button class="modal__close">&times;</button>
+      <div class="modal__header" data-en="Business Operations" data-es="Gestión">Business Operations</div>
+      <div class="modal__desc" data-en="Detailed description of Business Operations." data-es="Descripción detallada de Gestión.">
+        Detailed description of Business Operations.
+      </div>
+      <div class="modal__body">
+        <img class="placeholder" alt="Placeholder image">
+        <video class="placeholder" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-contact-center" class="modal">
+    <div class="modal__dialog">
+      <button class="modal__close">&times;</button>
+      <div class="modal__header" data-en="Contact Center" data-es="Centro De Servicios">Contact Center</div>
+      <div class="modal__desc" data-en="Detailed description of Contact Center." data-es="Descripción detallada del Centro de Servicios.">
+        Detailed description of Contact Center.
+      </div>
+      <div class="modal__body">
+        <img class="placeholder" alt="Placeholder image">
+        <video class="placeholder" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-it-support" class="modal">
+    <div class="modal__dialog">
+      <button class="modal__close">&times;</button>
+      <div class="modal__header" data-en="IT Support" data-es="Soporte IT">IT Support</div>
+      <div class="modal__desc" data-en="Detailed description of IT Support." data-es="Descripción detallada de Soporte IT.">
+        Detailed description of IT Support.
+      </div>
+      <div class="modal__body">
+        <img class="placeholder" alt="Placeholder image">
+        <video class="placeholder" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-professionals" class="modal">
+    <div class="modal__dialog">
+      <button class="modal__close">&times;</button>
+      <div class="modal__header" data-en="Professionals" data-es="Profesionales">Professionals</div>
+      <div class="modal__desc" data-en="Detailed description of Professionals." data-es="Descripción detallada de Profesionales.">
+        Detailed description of Professionals.
+      </div>
+      <div class="modal__body">
+        <img class="placeholder" alt="Placeholder image">
+        <video class="placeholder" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 OPS Online Support
+  </footer>
+
+  <script>
+    // Language toggle
+    const langBtn = document.getElementById('lang-toggle');
+    langBtn.dataset.state = 'en';
+    langBtn.addEventListener('click', () => {
+      const current = langBtn.dataset.state;
+      const next = current === 'en' ? 'es' : 'en';
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = el.getAttribute(`data-${next}`);
+      });
+      langBtn.dataset.state = next;
+      langBtn.textContent = next.toUpperCase();
+    });
+
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark');
+      themeBtn.textContent = isDark ? 'Light' : 'Dark';
+    });
+
+    // Open modal
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.getElementById(card.dataset.target).classList.add('active');
+      });
+    });
+
+    // Close modal
+    document.querySelectorAll('.modal__close').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.modal').classList.remove('active');
+      });
+    });
+
+    // Close modal when clicking backdrop
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', e => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
