@@ -49,23 +49,16 @@ footer {
 }
 
 body.dark {
-  background: var(--clr-bg-dark);
+  background: black;
   color: var(--clr-text-dark);
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(ellipse at top left, #0247FE, transparent 60%),
-              radial-gradient(ellipse at top right, #FE2712, transparent 60%),
-              radial-gradient(ellipse at bottom left, #FF270F, transparent 60%),
-              radial-gradient(ellipse at bottom right, #FEFE3E, transparent 60%);
-  opacity: 0.4;
-  pointer-events: none;
+body.dark .card {
+  background: white;
+  color: black;
 }
 
+/* NAVIGATION */
 nav {
   display: flex;
   align-items: center;

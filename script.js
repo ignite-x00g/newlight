@@ -76,4 +76,23 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
   const body = document.body;
   body.classList.toggle('dark');
   this.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
+
+  if (!body.classList.contains('dark')) {
+    const colors = [
+      '--clr-primary',
+      '--clr-secondary',
+      '--clr-accent-mint',
+      '--clr-highlight',
+      '--clr-muted',
+      '--clr-focus'
+    ];
+    document.querySelectorAll('.card').forEach(card => {
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      card.style.background = `var(${randomColor})`;
+    });
+  } else {
+    document.querySelectorAll('.card').forEach(card => {
+      card.style.background = '';
+    });
+  }
 });
