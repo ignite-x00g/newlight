@@ -7,16 +7,9 @@ document.getElementById('lang-toggle').addEventListener('click', function() {
   btn.textContent = toLang.toUpperCase();
   document.querySelectorAll('[data-en]').forEach(function(el) {
     if (el.getAttribute('data-en') && el.getAttribute('data-es')) {
-      el.textContent = el.getAttribute(toLang);
+      el.textContent = el.getAttribute(`data-${toLang}`);
     }
   });
-});
-
-// Theme Toggle
-document.getElementById('theme-toggle').addEventListener('click', function() {
-  const body = document.body;
-  body.classList.toggle('dark');
-  this.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
 });
 
 // Card Popups
@@ -76,4 +69,11 @@ window.addEventListener('keydown', function(e) {
       closeModal(modal);
     });
   }
+});
+
+// Theme Toggle
+document.getElementById('theme-toggle').addEventListener('click', function() {
+  const body = document.body;
+  body.classList.toggle('dark');
+  this.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
 });
