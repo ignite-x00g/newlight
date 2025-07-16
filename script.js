@@ -1,72 +1,63 @@
-// Language toggle
-const langBtn = document.getElementById('lang-toggle');
-langBtn.dataset.state = 'en';
-langBtn.addEventListener('click', () => {
-  const current = langBtn.dataset.state;
-  const next = current === 'en' ? 'es' : 'en';
-  document.querySelectorAll('[data-en]').forEach(el => {
-    el.textContent = el.getAttribute(`data-${next}`);
-  });
-  langBtn.dataset.state = next;
-  langBtn.textContent = next.toUpperCase();
-});
-
-// Theme toggle
-const themeBtn = document.getElementById('theme-toggle');
-themeBtn.addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark');
-  themeBtn.textContent = isDark ? 'Light' : 'Dark';
-});
-
-// Open modal
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.getElementById(card.dataset.target).classList.add('active');
+// Language Toggle
+document.getElementById('lang-toggle').addEventListener('click', function() {
+  var btn = this;
+  var toES = btn.textContent === 'EN';
+  btn.textContent = toES ? 'ES' : 'EN';
+  document.querySelectorAll('[data-en]').forEach(function(el) {
+    if (el.getAttribute('data-en') && el.getAttribute('data-es')) {
+      el.textContent = toES ? el.getAttribute('data-es') : el.getAttribute('data-en');
+    }
   });
 });
 
-// Close modal
-document.querySelectorAll('.modal__close').forEach(btn => {
-  btn.addEventListener('click', () => {
+// Theme Toggle
+document.getElementById('theme-toggle').addEventListener('click', function() {
+  var body = document.body;
+  body.classList.toggle('dark');
+  this.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
+});
+
+// Card Popups
+document.querySelectorAll('.card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var modal = document.getElementById(card.getAttribute('data-target'));
+    if(modal) modal.classList.add('active');
+  });
+});
+document.querySelectorAll('.modal__close').forEach(function(btn) {
+  btn.addEventListener('click', function() {
     btn.closest('.modal').classList.remove('active');
   });
 });
 
-// Close modal when clicking backdrop
-document.querySelectorAll('.modal').forEach(modal => {
-  modal.addEventListener('click', e => {
-    if (e.target === modal) modal.classList.remove('active');
+// Draggable Modal
+document.querySelectorAll('.modal__dialog').forEach(function(dialog) {
+  let offsetX, offsetY, isDragging = false;
+  dialog.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('modal__close')) return;
+    isDragging = true;
+    offsetX = e.clientX - dialog.getBoundingClientRect().left;
+    offsetY = e.clientY - dialog.getBoundingClientRect().top;
+    dialog.style.transition = 'none';
+  });
+  window.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+      dialog.style.left = (e.clientX - offsetX) + 'px';
+      dialog.style.top = (e.clientY - offsetY) + 'px';
+      dialog.style.transform = 'none';
+    }
+  });
+  window.addEventListener('mouseup', function() {
+    isDragging = false;
+    dialog.style.transition = '';
   });
 });
 
-// ===== DRAGGABLE MODALS FIXED LOGIC =====
-function makeDraggable(dialog) {
-  let isDragging = false;
-  let offset = { x: 0, y: 0 };
-
-  dialog.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    offset = {
-      x: dialog.offsetLeft - e.clientX,
-      y: dialog.offsetTop - e.clientY
-    };
-    dialog.style.cursor = 'grabbing';
-    dialog.style.position = 'absolute';
-  });
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    dialog.style.left = (e.clientX + offset.x) + 'px';
-    dialog.style.top = (e.clientY + offset.y) + 'px';
-  });
-
-  document.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      dialog.style.cursor = 'grab';
-    }
-  });
-}
-
-document.querySelectorAll('.modal__dialog').forEach(makeDraggable);
+// Optional: ESC closes any open modal
+window.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') {
+    document.querySelectorAll('.modal.active').forEach(function(modal){
+      modal.classList.remove('active');
+    });
+  }
+});
