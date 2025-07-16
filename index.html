@@ -5,32 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>OPS Online Support</title>
     <style>
-:root {
-  --clr-primary: #FF6900;
-  --clr-secondary: #C4C3D0;
-  --clr-accent-mint: #A8E6CF;
-  --clr-bg-light: #F5F5F5;
-  --clr-bg-dark: #2E2E3A;
-  --clr-text-light: #333333;
-  --clr-text-dark: #FFFFFF;
-}
+    :root {
+      --clr-primary: #FF6900;
+      --clr-secondary: #C4C3D0;
+      --clr-accent-mint: #A8E6CF;
+      --clr-bg-light: #F5F5F5;
+      --clr-bg-dark: #2E2E3A;
+      --clr-text-light: #FFFFFF;
+      --clr-text-dark: #444444;
+    }
 
-* {
+    * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: var(--clr-bg-light);
-  color: var(--clr-text-light);
-  transition: background 0.3s, color 0.3s;
-}
+  body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--clr-bg-light);
+      color: var(--clr-text-black);
+      transition: background 0.3s, color 0.3s;
+    }
 
-body.dark {
-  background: var(--clr-bg-dark);
-  color: var(--clr-text-dark);
-}
+    body.dark {
+      background: var(--clr-bg-dark);
+      color: var(--clr-text-white);
+    }
 
 /* ===== NAVIGATION ===== */
 nav {
@@ -145,8 +145,6 @@ main {
   gap: 1rem;
   margin-bottom: 150px;
   margin-top: 35px;
-}
-
 /* Dragged modals keep absolute positioning */
 #modal-business-operations .modal__dialog,
 #modal-professionals .modal__dialog,
