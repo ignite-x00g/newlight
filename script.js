@@ -1,11 +1,13 @@
 // Language Toggle
 document.getElementById('lang-toggle').addEventListener('click', function() {
   const btn = this;
-  const toES = btn.textContent === 'EN';
-  btn.textContent = toES ? 'ES' : 'EN';
+  const isEn = btn.dataset.state === 'en';
+  const toLang = isEn ? 'es' : 'en';
+  btn.dataset.state = toLang;
+  btn.textContent = toLang.toUpperCase();
   document.querySelectorAll('[data-en]').forEach(function(el) {
     if (el.getAttribute('data-en') && el.getAttribute('data-es')) {
-      el.textContent = toES ? el.getAttribute('data-es') : el.getAttribute('data-en');
+      el.textContent = el.getAttribute(toLang);
     }
   });
 });
