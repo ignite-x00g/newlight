@@ -4,30 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>OPS Online Support</title>
-    <style>
+<style>
 :root {
-  --clr-primary: #00C2FF;        /* Neon Aqua - primary CTA / headers */
-  --clr-secondary: #FF3BDC;      /* Vibrant Pink-Magenta for toggles / FABs */
-  --clr-accent-mint: #FFEF2F;    /* High-bright Warm Yellow for highlights / hover */
-  --clr-bg-light: #FAFAFC;       /* Soft Cool White (body background) */
-  --clr-bg-dark: #121212;        /* Deep Graphite Black */
-  --clr-text-light: #222222;     /* Neutral dark gray for light mode text */
-  --clr-text-dark: #F0F0F0;      /* Soft white for dark mode text */
-  --clr-highlight: #00FF94;      /* Bright green accent (used sparingly) */
-  --clr-muted: #999CA3;          /* Muted gray for sublabels, help-text */
-  --clr-focus: #FF00B8;          /* Focus ring / input glow for accessibility */
+  --clr-primary: #00C2FF;
+  --clr-secondary: #FF3BDC;
+  --clr-accent-mint: #FFEF2F;
+  --clr-bg-light: #FAFAFC;
+  --clr-bg-dark: #121212;
+  --clr-text-light: #222222;
+  --clr-text-dark: #F0F0F0;
+  --clr-highlight: #00FF94;
+  --clr-muted: #999CA3;
+  --clr-focus: #FF00B8;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html, body {
   height: 100%;
+  min-height: 100vh;          /* This is KEY for sticky footer on mobile */
   margin: 0;
   font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--clr-bg-light);
-  color: var(--clr-text-light);
+  color: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex: 1 0 auto;             /* Let body take up available vertical space */
+  min-height: 100vh;          /* Ensures footer sticks to bottom */
+  body, h1, h2, h3, h4, h5, h6, p, a, li, div, span
+  color: #000 !important;
+}
+
+footer {
+  flex-shrink: 0;
+  text-align: right;
+  padding: 1rem;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  margin-top: auto;
 }
 
 body.dark {
@@ -63,10 +81,7 @@ nav ul {
   margin: 0;
 }
 
-nav li {
-  margin-right: 15px;
-}
-
+nav li { margin-right: 15px; }
 nav a {
   color: #fff;
   text-decoration: none;
@@ -88,54 +103,59 @@ nav a {
   cursor: pointer;
 }
 
-/* MAIN CARDS */
 main {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  flex: 1 0 auto;             /* Let main grow and push footer down */
+  justify-items: center;
+  align-items: center;
   gap: 2rem;
   padding: 2rem;
+  min-height: calc(100vh - 160px);
+  background: linear-gradient(to bottom right, #D4DDF7 0%, #FFFFFF 100%);
+  border-radius: 1rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.05);
 }
 
 .card {
-  width: 280px;
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
   background: #fff;
   border: 2px solid var(--clr-accent-mint);
   border-radius: 8px;
-  padding: 3rem;
+  padding: .5rem;
   cursor: pointer;
   transition: transform 0.2s;
+  box-shadow: 0 0 10px rgba(255, 239, 47, 0.4);
+  text-align: center;
+  color: #000;
+  display: flex;             /* Make content flexbox */
+  flex-direction: column;    /* Stack vertically */
+  justify-content: center;   /* Vertically center */
+  align-items: center;       /* Horizontally center */
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card h3 {
-  margin: 0 0 0.5rem;
-}
-
-.card p {
-  margin: 0;
-}
-
-/* MODAL BACKDROP */
+.card:hover { transform: translateY(-4px); }
+.card h3 { margin: 0 0 0.5rem; }
+.card p { margin: 0; }
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0);
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  transition: background 0.3s;
 }
 
 .modal.active {
   display: flex;
+  background: rgba(0, 0, 0, 0.6);
 }
 
-/* MODAL DIALOG BOX */
 .modal__dialog {
   background: #fff;
   width: 95%;
@@ -144,7 +164,7 @@ main {
   overflow: auto;
   border-radius: 12px;
   padding: 1rem;
-  position: relative;
+  position: absolute;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -152,20 +172,9 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  cursor: move;
 }
 
-/* DRAGGABLE FIXED MODAL HANDLING */
-#modal-business-operations .modal__dialog,
-#modal-professionals .modal__dialog,
-#modal-it-support .modal__dialog,
-#modal-contact-center .modal__dialog {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* MODAL HEADER */
 .modal__header {
   padding: 1rem;
   background: var(--clr-primary);
@@ -175,7 +184,6 @@ main {
   border-radius: 6px 6px 0 0;
 }
 
-/* CLOSE BUTTON (Larger & Black) */
 .modal__close {
   position: absolute;
   top: 0.5rem;
@@ -189,7 +197,6 @@ main {
   z-index: 10;
 }
 
-/* MODAL BODY GRID */
 .modal__body {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -223,10 +230,7 @@ main {
   gap: 0.75rem;
 }
 
-.modal__content-right ul {
-  padding-left: 1.25rem;
-}
-
+.modal__content-right ul { padding-left: 1.25rem; }
 .modal__content-right li {
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
@@ -244,21 +248,13 @@ main {
   border-radius: 8px;
 }
 
-/* CUSTOM SCROLLBAR */
-.modal__dialog::-webkit-scrollbar {
-  width: 10px;
-}
+.modal__dialog::-webkit-scrollbar { width: 10px; }
 .modal__dialog::-webkit-scrollbar-thumb {
   background-color: var(--clr-accent-mint);
   border-radius: 5px;
 }
 
-/* FIX FOOTER STICK TO BOTTOM */
-body {
-  display: flex;
-  flex-direction: column;
-}
-
+body { display: flex; flex-direction: column; }
 footer {
   text-align: right;
   padding: 1rem;
@@ -268,12 +264,8 @@ footer {
   margin-top: auto;
 }
 
-/* RESPONSIVE ENHANCEMENTS */
 @media (max-width: 768px) {
-  nav ul {
-    display: none;
-  }
-
+  nav ul { display: none; }
   .toggles {
     flex-direction: column;
     position: absolute;
@@ -292,29 +284,21 @@ footer {
     transform: translate(-50%, -50%);
   }
 
-  .modal__body {
-    display: block;
-  }
-
+  .modal__body { display: block; }
   .modal__media-left,
   .modal__content-right,
-  .modal__video {
-    width: 100%;
-  }
-
+  .modal__video { width: 100%; }
   main {
     flex-direction: column;
     align-items: center;
   }
 
-  .card {
-    width: 90%;
+  .card { width: 90%; }
   }
-}
+
 </style>
 </head>
 <body>
-
   <nav>
     <div class="logo">OPS</div>
     <ul>
@@ -328,7 +312,6 @@ footer {
       <button id="theme-toggle">Dark</button>
     </div>
   </nav>
-
   <main>
     <div class="card" data-target="modal-business-operations">
       <h3 data-en="Business Operations" data-es="Gestión">Business Operations</h3>
@@ -347,7 +330,7 @@ footer {
       <p data-en="Brief overview of services" data-es="Resumen de servicios">Brief overview of services</p>
     </div>
   </main>
-  <!-- Modals -->
+  <!-- Modal: Business Operations -->
   <div id="modal-business-operations" class="modal">
     <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
@@ -357,7 +340,7 @@ footer {
       </div>
       <img class="placeholder" alt="Placeholder image">
       <div class="modal__body">
-        <p data-en="Key areas include process optimization, supply chain management, and quality assurance." data-es="Las áreas clave incluyen la optimización de procesos, la gestión de la cadena de suministro y el control de calidad."></p>
+        <p data-en="Key areas include process optimization, supply chain management, and quality assurance." data-es="Las áreas clave incluyen la optimización de procesos, la gestión de la cadena de suministro y el control de calidad.">Key areas include process optimization, supply chain management, and quality assurance.</p>
         <ul>
           <li data-en="Workflow digitization and automation" data-es="Digitalización y automatización de flujos de trabajo">Workflow digitization and automation</li>
           <li data-en="Logistics and inventory efficiency strategies" data-es="Estrategias de eficiencia logística y de inventario">Logistics and inventory efficiency strategies</li>
@@ -369,7 +352,7 @@ footer {
       </div>
     </div>
   </div>
-
+  <!-- Modal: Contact Center -->
   <div id="modal-contact-center" class="modal">
     <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
@@ -379,15 +362,8 @@ footer {
       </div>
       <img class="placeholder" alt="Placeholder image">
       <div class="modal__body">
-        <p data-en="We offer inbound and outbound call services, multi-channel support (email, chat, social media), and advanced analytics." data-es="Ofrecemos servicios de llamadas entrantes y salientes, soporte multicanal (correo electrónico, chat, redes sociales) y análisis avanzados."></p>
+        <p data-en="We offer inbound and outbound call services, multi-channel support (email, chat, social media), and advanced analytics." data-es="Ofrecemos servicios de llamadas entrantes y salientes, soporte multicanal (correo electrónico, chat, redes sociales) y análisis avanzados.">We offer inbound and outbound call services, multi-channel support (email, chat, social media), and advanced analytics.</p>
         <ul>
-          <li data-en="24/7 inbound and outbound call handling" data-es="Manejo de llamadas entrantes y salientes 24/7">24/7 inbound and outbound call handling</li>
-          <li data-en="Multilingual live chat and email support" data-es="Soporte multilingüe por chat en vivo y correo electrónico">Multilingual live chat and email support</li>
-          <li data-en="Integration with CRM platforms (e.g., HubSpot, Salesforce)" data-es="Integración con plataformas CRM (por ejemplo, HubSpot, Salesforce)">Integration with CRM platforms (e.g., HubSpot, Salesforce)</li>
-          <li data-en="Social media engagement & sentiment tracking" data-es="Participación en redes sociales y seguimiento de sentimientos">Social media engagement & sentiment tracking</li>
-          <li data-en="Customer experience analytics and quality monitoring" data-es="Análisis de la experiencia del cliente y seguimiento de la calidad">Customer experience analytics and quality monitoring</li>
-        </ul>
-          <ul>
           <li data-en="24/7 inbound and outbound call handling" data-es="Manejo de llamadas entrantes y salientes 24/7">24/7 inbound and outbound call handling</li>
           <li data-en="Multilingual live chat and email support" data-es="Soporte multilingüe por chat en vivo y correo electrónico">Multilingual live chat and email support</li>
           <li data-en="Integration with CRM platforms (e.g., HubSpot, Salesforce)" data-es="Integración con plataformas CRM (por ejemplo, HubSpot, Salesforce)">Integration with CRM platforms (e.g., HubSpot, Salesforce)</li>
@@ -398,7 +374,7 @@ footer {
       </div>
     </div>
   </div>
-
+  <!-- Modal: IT Support -->
   <div id="modal-it-support" class="modal">
     <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
@@ -408,7 +384,7 @@ footer {
       </div>
       <img class="placeholder" alt="Placeholder image">
       <div class="modal__body">
-        <p data-en="Services include helpdesk support, network monitoring, cybersecurity services, and cloud infrastructure management." data-es="Los servicios incluyen soporte de mesa de ayuda, monitoreo de red, servicios de ciberseguridad y administración de infraestructura en la nube."></p>
+        <p data-en="Services include helpdesk support, network monitoring, cybersecurity services, and cloud infrastructure management." data-es="Los servicios incluyen soporte de mesa de ayuda, monitoreo de red, servicios de ciberseguridad y administración de infraestructura en la nube.">Services include helpdesk support, network monitoring, cybersecurity services, and cloud infrastructure management.</p>
         <ul>
           <li data-en="24/7 helpdesk and remote troubleshooting" data-es="Servicio de asistencia 24 horas al día, 7 días a la semana y solución de problemas remota">24/7 helpdesk and remote troubleshooting</li>
           <li data-en="Real-time network and system monitoring" data-es="Monitorización de redes y sistemas en tiempo real">Real-time network and system monitoring</li>
@@ -416,18 +392,11 @@ footer {
           <li data-en="Cloud infrastructure setup and maintenance" data-es="Configuración y mantenimiento de la infraestructura en la nube">Cloud infrastructure setup and maintenance</li>
           <li data-en="Compliance with NIST, CISA, and OPS Core CyberSec policies" data-es="Cumplimiento de las políticas de ciberseguridad de NIST, CISA y OPS Core">Compliance with NIST, CISA, and OPS Core CyberSec policies</li>
         </ul>
-        <ul>
-          <li data-en="24/7 helpdesk and remote troubleshooting" data-es="Servicio de asistencia 24 horas al día, 7 días a la semana y solución de problemas remota">24/7 helpdesk and remote troubleshooting</li>
-          <li data-en="Real-time network and system monitoring" data-es="Monitorización de redes y sistemas en tiempo real">Real-time network and system monitoring</li>
-          <li data-en="Cybersecurity audits, patching, and threat detection" data-es="Auditorías de ciberseguridad, aplicación de parches y detección de amenazas">Cybersecurity audits, patching, and threat detection</li>
-          <li data-en="Cloud infrastructure setup and maintenance" data-es="Configuración y mantenimiento de la infraestructura en la nube">Cloud infrastructure setup and maintenance</li>
-          <li data-en="Compliance with NIST, CISA, and OPS Core CyberSec policies" data-es="Cumplimiento de las políticas de ciberseguridad de NIST, CISA y OPS Core">Compliance with NIST, CISA, and OPS Core CyberSec policies</li>
-        </ul>
-       <video class="placeholder" controls></video>
+        <video class="placeholder" controls></video>
       </div>
     </div>
   </div>
-
+  <!-- Modal: Professionals -->
   <div id="modal-professionals" class="modal">
     <div class="modal__dialog" draggable="true">
       <button class="modal__close">&times;</button>
@@ -437,7 +406,7 @@ footer {
       </div>
       <img class="placeholder" alt="Placeholder image">
       <div class="modal__body">
-        <p data-en="We provide experts in various fields including IT, project management, finance, and human resources, ensuring you get the right talent for your business." data-es="Proporcionamos expertos en diversos campos, como TI, gestión de proyectos, finanzas y recursos humanos, garantizando que obtenga el talento adecuado para su negocio."></p>
+        <p data-en="We provide experts in various fields including IT, project management, finance, and human resources, ensuring you get the right talent for your business." data-es="Proporcionamos expertos en diversos campos, como TI, gestión de proyectos, finanzas y recursos humanos, garantizando que obtenga el talento adecuado para su negocio.">We provide experts in various fields including IT, project management, finance, and human resources, ensuring you get the right talent for your business.</p>
         <ul>
           <li data-en="Remote IT professionals (SysAdmins, DevOps, Analysts)" data-es="Profesionales de TI remotos (SysAdmins, DevOps, Analistas)">Remote IT professionals (SysAdmins, DevOps, Analysts)</li>
           <li data-en="Project managers and agile consultants" data-es="Jefes de proyecto y consultores ágiles">Project managers and agile consultants</li>
@@ -445,22 +414,13 @@ footer {
           <li data-en="Human resources and recruitment experts" data-es="Expertos en recursos humanos y contratación">Human resources and recruitment experts</li>
           <li data-en="OPS-vetted talent with NDAs, compliance training, and role-specific onboarding" data-es="Talento investigado por OPS con acuerdos de confidencialidad, formación en cumplimiento y incorporación específica para cada puesto">OPS-vetted talent with NDAs, compliance training, and role-specific onboarding</li>
         </ul>
-        <ul>
-          <li data-en="Remote IT professionals (SysAdmins, DevOps, Analysts)" data-es="Profesionales de TI remotos (SysAdmins, DevOps, Analistas)">Remote IT professionals (SysAdmins, DevOps, Analysts)</li>
-          <li data-en="Project managers and agile consultants" data-es="Jefes de proyecto y consultores ágiles">Project managers and agile consultants</li>
-          <li data-en="Finance and accounting professionals" data-es="Profesionales de finanzas y contabilidad">Finance and accounting professionals</li>
-          <li data-en="Human resources and recruitment experts" data-es="Expertos en recursos humanos y contratación">Human resources and recruitment experts</li>
-          <li data-en="OPS-vetted talent with NDAs, compliance training, and role-specific onboarding" data-es="Talento investigado por OPS con acuerdos de confidencialidad, formación en cumplimiento y incorporación específica para cada puesto">OPS-vetted talent with NDAs, compliance training, and role-specific onboarding</li>
-        </ul>
-       <video class="placeholder" controls></video>
+        <video class="placeholder" controls></video>
       </div>
     </div>
   </div>
-
   <footer>
     © 2025 OPS Online Support
   </footer>
-
   <script src="script.js"></script>
   </body>
 </html>
