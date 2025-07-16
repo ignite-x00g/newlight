@@ -1,7 +1,7 @@
 // Language Toggle
 document.getElementById('lang-toggle').addEventListener('click', function() {
-  var btn = this;
-  var toES = btn.textContent === 'EN';
+  const btn = this;
+  const toES = btn.textContent === 'EN';
   btn.textContent = toES ? 'ES' : 'EN';
   document.querySelectorAll('[data-en]').forEach(function(el) {
     if (el.getAttribute('data-en') && el.getAttribute('data-es')) {
@@ -12,7 +12,7 @@ document.getElementById('lang-toggle').addEventListener('click', function() {
 
 // Theme Toggle
 document.getElementById('theme-toggle').addEventListener('click', function() {
-  var body = document.body;
+  const body = document.body;
   body.classList.toggle('dark');
   this.textContent = body.classList.contains('dark') ? 'Light' : 'Dark';
 });
@@ -20,13 +20,27 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
 // Card Popups
 document.querySelectorAll('.card').forEach(function(card) {
   card.addEventListener('click', function() {
-    var modal = document.getElementById(card.getAttribute('data-target'));
+    const modal = document.getElementById(card.getAttribute('data-target'));
     if(modal) modal.classList.add('active');
   });
 });
+
+// Close Modal
+function closeModal(modal) {
+  modal.classList.remove('active');
+}
+
 document.querySelectorAll('.modal__close').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    btn.closest('.modal').classList.remove('active');
+    closeModal(btn.closest('.modal'));
+  });
+});
+
+document.querySelectorAll('.modal').forEach(function(modal) {
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal(modal);
+    }
   });
 });
 
@@ -57,7 +71,7 @@ document.querySelectorAll('.modal__dialog').forEach(function(dialog) {
 window.addEventListener('keydown', function(e) {
   if(e.key === 'Escape') {
     document.querySelectorAll('.modal.active').forEach(function(modal){
-      modal.classList.remove('active');
+      closeModal(modal);
     });
   }
 });
